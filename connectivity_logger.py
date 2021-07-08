@@ -35,12 +35,13 @@ CheckResult = Enum("CheckResult",
 ping_summary_regex = re.compile("(\d+) packets transmitted, (\d+) received, (\d+)")
 
 class PingCheck:
-    def __init__(self, name, configuration_section, num_pings):
+    def __init__(self, name, configuration_section, num_pings, interval):
         self.name = name
         self.protocol = configuration_section.get("protocol", "any")
         self.hostname = configuration_section["hostname"]
         self.non_global_okay = configuration_section.getboolean("non_global_okay", False)
         self.num_pings = num_pings
+        self.interval = interval
         
         self.used_address = ""
         self.used_protocol = ""
@@ -55,7 +56,7 @@ class PingCheck:
                     if (family == socket.AddressFamily.AF_INET and 
                         self.protocol in ["ipv4", "any"]):
                             self.process = Popen(
-                                ["ping", "-c", str(self.num_pings), current_address],
+                                ["ping", "-c", str(self.num_pings), "-i", str(self.interval), current_address],
                                 stdout=PIPE,
                                 env={"LC_ALL": "C", "LANG": "C"})
                             self.used_address = ip_address(current_address)
@@ -64,7 +65,7 @@ class PingCheck:
                     if (family == socket.AddressFamily.AF_INET6 and 
                         self.protocol in ["ipv6", "any"]):
                             self.process = Popen(
-                                ["ping6", "-c", str(self.num_pings), current_address],
+                                ["ping6", "-c", str(self.num_pings), "-i", str(self.interval), current_address],
                                 stdout=PIPE,
                                 env={"LC_ALL": "C", "LANG": "C"})
                             self.used_address = ip_address(current_address)
@@ -130,22 +131,29 @@ if __name__ == '__main__':
     deadline = time.time() + 45
     check_time = datetime.now(tz=timezone.utc)
 
-    num_pings = configuration["connectivity_logger"].get("pings", 5)
+    num_pings = configuration["connectivity_logger"].getint("pings", 5)
+    ping_interval = configuration["connectivity_logger"].getfloat("ping_interval", 1.0)
 
     ping_checks = []
     for section in configuration:
         if section not in ['DEFAULT', 'connectivity_logger']:
             if configuration[section].get("protocol", "any") == "both":
-                ping_check_v4 = PingCheck(section, configuration[section], num_pings=num_pings)
+                ping_check_v4 = PingCheck(section, configuration[section],
+                                          num_pings=num_pings,
+                                          interval=ping_interval)
                 ping_check_v4.protocol = "ipv4"
                 ping_check_v4.start_check()
                 ping_checks.append(ping_check_v4)
-                ping_check_v6 = PingCheck(section, configuration[section], num_pings=num_pings)
+                ping_check_v6 = PingCheck(section, configuration[section],
+                                          num_pings=num_pings,
+                                          interval=ping_interval)
                 ping_check_v6.protocol = "ipv6"
                 ping_check_v6.start_check()
                 ping_checks.append(ping_check_v6)
             else:
-                ping_check = PingCheck(section, configuration[section], num_pings=num_pings)
+                ping_check = PingCheck(section, configuration[section],
+                                       num_pings=num_pings,
+                                       interval=ping_interval)
                 ping_check.start_check()
                 ping_checks.append(ping_check)
     
