@@ -119,7 +119,7 @@ def get_configuration(paths):
 if __name__ == '__main__':
     configuration = get_configuration([
         "connectivity_logger.cfg",
-        os.path.expanduser("~/connectivity_logger.cfg"),
+        os.path.expanduser("~/.connectivity_logger.cfg"),
         "/etc/connectivity_logger.cfg",
         os.path.join(os.path.dirname(os.path.realpath(__file__)), "connectivity_logger.cfg")]
         )
