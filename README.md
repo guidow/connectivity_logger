@@ -21,9 +21,9 @@ probably work as is for most people has been provided.
 The configuration file will be looked for in the following places, in that order:
 
 - The current working directory as `connectivity_logger.cfg`
-- The current user's home directory as `.connectivity_logger.cfg
+- The current user's home directory as `.connectivity_logger.cfg`
 - `/etc/connectivity_logger.cfg`
-- The same directory the script itself as `connectivity_logger.cfg`
+- The directory of the script itself as `connectivity_logger.cfg`
 
 Only the first configuration file found will be read. The others will be ignored.
 
@@ -50,7 +50,7 @@ are planned for the future.
 
 Some home routers have the nasty habit of faking DNS answers in the case of an outage
 to point them to themselves instead. This allows them to show the user an error page
-instead of the site they were actuall trying to visit, but obviously interferes with
+instead of the site they were actually trying to visit, but obviously interferes with
 our checks. For this reason, we resolve the IP addresses we ping manually (instead of
 letting the `ping` utility do that for us) and both log the used addresses and check
 whether they are actually globally routable.
