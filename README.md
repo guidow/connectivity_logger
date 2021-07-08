@@ -20,10 +20,10 @@ probably work as is for most people has been provided.
 
 The configuration file will be looked for in the following places, in that order:
 
-- The current working directory as `connectivity_logger.cfg`
-- The current user's home directory as `.connectivity_logger.cfg`
-- `/etc/connectivity_logger.cfg`
-- The directory of the script itself as `connectivity_logger.cfg`
+1. The current working directory as `connectivity_logger.cfg`
+2. The current user's home directory as `.connectivity_logger.cfg`
+3. `/etc/connectivity_logger.cfg`
+4. The directory of the script itself as `connectivity_logger.cfg`
 
 Only the first configuration file found will be read. The others will be ignored.
 
