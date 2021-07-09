@@ -63,3 +63,13 @@ The CSV can become quite large with time, which may overwhelm some spreadsheet s
 An auto-rotation feature is planned to avoid that.
 
 Another script to get some statistics from that data is planned for the future.
+
+Example output:
+
+    2021-07-08 23:59 UTC;heise;ipv6;2a02:2e0:3fe:1001:302::;OK;20;20
+    2021-07-08 23:59 UTC;google;ipv4;142.250.185.238;PACKET_LOSS;20;6
+    2021-07-08 23:59 UTC;google;ipv6;2a00:1450:4001:809::200e;OK;20;20
+    2021-07-08 23:59 UTC;google DNS;ipv4;8.8.8.8;PACKET_LOSS;20;6
+    2021-07-08 23:59 UTC;reddit;ipv4;151.101.193.140;OK;20;20
+    2021-07-08 23:59 UTC;youtube;ipv4;172.217.23.110;UNREACHABLE;20;0
+    2021-07-08 23:59 UTC;youtube;ipv6;2a00:1450:4001:800::200e;OK;20;20
