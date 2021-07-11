@@ -47,7 +47,10 @@ class PingCheck:
         self.used_protocol = ""
 
     def start_check(self):
-        addresses = socket.getaddrinfo(self.hostname, None)
+        try:
+            addresses = socket.getaddrinfo(self.hostname, None)
+        except socket.gaierror:
+            return
         for address in addresses:
             family, sock_type, proto, _, sockaddr = address
             current_address, *_ = sockaddr
