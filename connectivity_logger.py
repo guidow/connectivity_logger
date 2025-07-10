@@ -142,6 +142,8 @@ if __name__ == '__main__':
     ping_checks = []
     for section in configuration:
         if section not in ['DEFAULT', 'connectivity_logger']:
+            if configuration[section]['type'] not in ['ping']:
+                raise Exception("Unknown check type {}".format(configuration[section]['type'] ))
             if configuration[section].get("protocol", "any") == "both":
                 ping_check_v4 = PingCheck(section, configuration[section],
                                           num_pings=num_pings,
