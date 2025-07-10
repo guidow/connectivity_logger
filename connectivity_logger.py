@@ -32,7 +32,7 @@ CheckResult = Enum("CheckResult",
                     "BAD_CERTIFICATE",
                     "UNKNOWN"])
 
-ping_summary_regex = re.compile("(\d+) packets transmitted, (\d+) received, (\d+)")
+ping_summary_regex = re.compile(r"(\d+) packets transmitted, (\d+) received, (\d+)")
 
 class PingCheck:
     def __init__(self, name, configuration_section, num_pings, interval):
