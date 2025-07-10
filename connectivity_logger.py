@@ -17,6 +17,7 @@ import socket
 import re
 import time
 import os
+import fasteners
 from datetime import datetime, timezone
 from configparser import ConfigParser
 from enum import Enum
@@ -127,10 +128,11 @@ if __name__ == '__main__':
         os.path.join(os.path.dirname(os.path.realpath(__file__)), "connectivity_logger.cfg")]
         )
 
+    lock = fasteners.InterProcessLock(os.path.expanduser(".connectivity_logger.lock"))
+
     # We assume this script will be run once per minute, so we set ourselves a deadline
     # for all checks for 45 seconds from now. This should give us enough time to finish
     # up before the next start.
-    # TODO Also use a file lock
     deadline = time.time() + 45
     check_time = datetime.now(tz=timezone.utc)
 
